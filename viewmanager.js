@@ -1,6 +1,6 @@
 var vm = Backbone.ViewManager = {};
 
-vm = (function() {
+vm.Core = (function() {
     var _regions = {};
 
     return {
