@@ -4,18 +4,13 @@ A simple little module for managing Backbone views, birthed in a [JSFiddle](http
 An even simpler version without region support is [available here](http://jsfiddle.net/danharper/gs489/) if you're
 interested in seeing how this evolved.
 
----
+This point is to be a small, lightweight library to help people learn.
 
-**Fair Warning** As of right now I haven't yet tested this yet. I've just pulled the (very working) code from JSFiddle,
-and made a few changes (all in the GitHub web interface, pretty cool).
-I'm pretty sure those changes wouldn't have broken anything, but I'll test this out properly later.
-
----
 
 ## Usage
 
 You're given a new `Backbone.ViewManager` which does all the cool stuff. And a `Backbone.ViewManager.BaseView`
-for you to extend from.
+for you to extend from. [See a demo of the below code in action](http://jsfiddle.net/danharper/SySqJ/).
 
 ```javascript
 var app = window.app = { views: {} };
