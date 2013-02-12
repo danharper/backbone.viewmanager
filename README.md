@@ -66,19 +66,19 @@ app.router = Backbone.Router.extend({
 
     initialize: function() {
         // register the regions
-        Backbone.ViewManager.addRegion('panel', '#panel');
-        Backbone.ViewManager.addRegion('sidebar', '#sidebar');
+        Backbone.ViewManager.Core.addRegion('panel', '#panel');
+        Backbone.ViewManager.Core.addRegion('sidebar', '#sidebar');
     },
 
     pageOne: function() {
         // render our views!
-        Backbone.ViewManager.swap('panel', new app.views.pageOne());
-        Backbone.ViewManager.swap('sidebar', new app.views.sidebarOne());
+        Backbone.ViewManager.Core.swap('panel', new app.views.pageOne());
+        Backbone.ViewManager.Core.swap('sidebar', new app.views.sidebarOne());
     },
 
     pageTwo: function() {
-        Backbone.ViewManager.swap('panel', new app.views.pageTwo());
-        Backbone.ViewManager.swap('sidebar', new app.views.sidebarTwo());
+        Backbone.ViewManager.Core.swap('panel', new app.views.pageTwo());
+        Backbone.ViewManager.Core.swap('sidebar', new app.views.sidebarTwo());
     }
 });
 
