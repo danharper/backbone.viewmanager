@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+	<title>backbone.viewmanager</title>	
+	<meta charset="UTF-8" />
+
+	<style type="text/css">
+
+	* { box-sizing: border-box; }
+	
+	body {
+	    font-family: sans-serif;
+	    margin: 20px;
+	}
+	
+	a {
+	    color: #5285B0;
+	}
+	
+	h1 {
+	    font-size: 1.4em;
+	}
+	
+	nav {
+	    margin: 20px 0;
+	}
+	
+	footer {
+	    margin-top: 20px;
+	}
+	
+	footer a {
+	    color: #999;
+	    text-decoration: none;
+	}
+	
+	footer a:hover {
+	    color: #777;
+	    text-decoration: underline;
+	}
+	
+	section {
+	    overflow: hidden;
+	}
+	
+	#panel {
+	    background: #eee;
+	    float: left;
+	    width: 70%;
+	    padding: 10px;
+	}
+	
+	#sidebar {
+	    background: #e0e0e0;
+	    border-left: 1px solid #bbb;
+	    float: right;
+	    width: 30%;
+	    padding: 10px;
+	}
+
+	</style>
+
+</head>
+<body>
+
+<h1>backbone.viewmanager</h1>
+
+<nav><a href="#">Home</a> | <a href="#foo">Page Two</a></nav>
+
+<section>
+    <div id="panel">
+        <p>Application Loading...</p>
+    </div>
+
+    <aside id="sidebar">
+        <p>lol</p>
+    </aside>
+</section>
+
+<footer>
+    <p><small><a href="http://twitter.com/danharper7">by Dan Harper</a></small></p>
+</footer>
+
+<script type="template" id="pageOne">
+    <p>Hi there, from <%= person.name %></p>
+</script>
+
+<script type="template" id="pageTwo">
+    <p><a href="https://raw.github.com/danharper/backbone.viewmanager">Check me out on GitHub.</a></p>
+</script>
+
+<script type="template" id="sidebarOne">
+    <p>A SIDEBAR!</p>
+</script>
+
+<script type="template" id="sidebarTwo">
+    <p>A different one</p>
+</script>
+
+<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.0.0/backbone-min.js"></script>
+<script src="backbone.viewmanager.js"></script>
+
+<script type="text/javascript">
+
+var app = window.app = { views: {} };
+
+// these views inherit the render() method from the base
+// so you only need to write that function if it does something special
+app.views.pageOne = Backbone.ViewManager.BaseView.extend({
+    template: '#pageOne',
+
+    initialize: function() {
+        // set some data which will be passed to the template
+        // you could add your model or collection here
+        // 
+        // NOTE: the base view's render() method is only good
+        // for the simplest of views, write your own on a view
+        // if you have more advanced needs
+        this.templateData.person = {
+            name: 'Dan Harper'
+        };
+    }
+});
+
+app.views.pageTwo = Backbone.ViewManager.BaseView.extend({
+    template: '#pageTwo',
+
+    unsetView: function() {
+        // this method is run just before the view is removed,
+        // you may want to turn off any bindings here..
+        console.log('pageTwo custom unsetView');
+    }
+});
+
+app.views.sidebarOne = Backbone.ViewManager.BaseView.extend({
+    template: '#sidebarOne'
+});
+
+app.views.sidebarTwo = Backbone.ViewManager.BaseView.extend({
+    template: '#sidebarTwo'
+});
+
+app.router = Backbone.Router.extend({
+    routes: {
+        '': 'pageOne',
+        'foo': 'pageTwo'
+    },
+
+    initialize: function() {
+        // register the regions
+        Backbone.ViewManager.Core.addRegion('panel', '#panel');
+        Backbone.ViewManager.Core.addRegion('sidebar', '#sidebar');
+    },
+
+    pageOne: function() {
+        // render our views!
+        Backbone.ViewManager.Core.swap('panel', new app.views.pageOne());
+        Backbone.ViewManager.Core.swap('sidebar', new app.views.sidebarOne());
+    },
+
+    pageTwo: function() {
+        Backbone.ViewManager.Core.swap('panel', new app.views.pageTwo());
+        Backbone.ViewManager.Core.swap('sidebar', new app.views.sidebarTwo());
+    }
+});
+
+$(function()
+{
+	new app.router();
+	Backbone.history.start();
+});
+
+</script>
+
+</body>
+</html>
