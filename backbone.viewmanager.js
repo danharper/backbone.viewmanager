@@ -1,3 +1,5 @@
+(function(Backbone) {
+
 var vm = Backbone.ViewManager = {};
 
 vm.Core = (function() {
@@ -34,6 +36,9 @@ vm.Core = (function() {
 
             // render the new view into the region
             region.el.empty().html(newView.render().el);
+
+            // return the new view instance
+            return newView;
         }
     };
 })();
@@ -53,7 +58,7 @@ vm.BaseView = Backbone.View.extend({
         if (this.template) {
             var template = _.template($(this.template).html());
 
-            $(this.el).html(template(this.templateData));
+            this.$el.html(template(this.templateData));
         }
         return this;
     },
@@ -74,3 +79,5 @@ vm.BaseView = Backbone.View.extend({
     }
 
 });
+
+})(window.Backbone);
